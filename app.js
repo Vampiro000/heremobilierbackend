@@ -28,7 +28,7 @@ app.use((req, res, next) => {
     res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, PATCH, OPTIONS");
     next();
 });
-
+app.use(bodyParser.json());
 async function getlonglatbyadress(adress) {
     let coordinates = { long: 0, lat: 0 };
     await axios.get('https://api-adresse.data.gouv.fr/search/?q=' + adress)
@@ -163,6 +163,14 @@ app.get("/adressHelper", async (req, res, next) => {
     //     });
 
 })
+
+app.post("/requestHomes", function (req, res) {
+    // let distance = req.body.distance;
+    // let surface = [req.body.surface.min, req.body.surface.max];
+    // let prices = req.body.prices;
+    console.log(req.body);
+    res.status(200).json(req.body);
+});
 app.get("/getnearhouses", async (req, res, next) => {
     // http://localhost:3000/getnearhouses?adress=23+rue+Henri+Salvador+13320&distance=5&codepostal=13320
     console.log("REquest Params", req.query.adress)
@@ -192,7 +200,7 @@ app.get("/testbdconnexion", (req, res, next) => {
         console.log("Result:", res.rows)
     })
 })
-app.use(bodyParser.json());
+
 
 app.post("/api/auth/signin", (req, res, next) => {
 
